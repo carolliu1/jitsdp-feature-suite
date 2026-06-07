@@ -1,0 +1,16 @@
+name: commit-feature-suite
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - PyDriller
+      - lizard
+      - tree-sitter
+      - tree-sitter-language-pack
+      - networkx
+      - pandas
+      - tqdm
+      - pytest
+

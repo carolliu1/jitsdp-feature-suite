@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "commit-feature-suite"
+version = "0.1.0"
+description = "Commit-level feature suite for method coupling, file/class metrics, and RCA-based static analysis"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "PyDriller",
+  "lizard",
+  "tree-sitter",
+  "tree-sitter-language-pack",
+  "networkx",
+  "pandas",
+  "tqdm",
+]
+
+[project.scripts]
+commit-feature-suite = "commit_feature_suite.cli:main"
+commit-method-coupling = "commit_feature_suite.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
