@@ -53,26 +53,48 @@ jit_sdp_experiment_analysis/
 |-- run_feature_importance_analysis.py      # Main entry point for the full workflow
 |-- scripts                                 # Utility scripts
 |   `-- install_scottknottesd.R             # Install the GitHub development version of ScottKnottESD
-|
-`-- jit_sdp_analysis                        # Main Python package for the experiments
-    |-- config.py                           # Dataclass-based experiment configuration
-    |-- data.py                             # Dataset loading, validation, and preparation
-    |-- project_presets.py                  # Dataset names and selected commit-level feature columns
-    |-- feature_groups.py                   # Feature concept grouping and metric-name normalization
-    |-- metrics.py                          # G-mean, Recall0, Recall1, MCC, F1, and related metrics
-    |-- modeling.py                         # Time-forward splitting, random forest tuning, and evaluation
-    |-- npsk.py                             # Python wrapper for calling the R ScottKnottESD package
-    |-- plots.py                            # Figure generation for all analysis stages
-    |
-    |-- stage1.py                           # Stage 1: univariate signal analysis and NPSK ranking
-    |-- stage2.py                           # Stage 2: MDI, grouped/raw feature ranking, and Meta-NPSK
-    |-- stage3.py                           # Stage 3: Top-k NPSK rank-group performance validation
-    |-- stage4.py                           # Stage 4: Kamei-plus-feature-category comparison
-    |-- workflow.py                         # Object-oriented orchestration of the full pipeline
-    |
-    `-- r
-        `-- run_scottknottesd.R             # R-side bridge script for ScottKnottESD::sk_esd()
+|-- jit_sdp_analysis                        # Main Python package for the experiments
+|   |-- config.py                           # Dataclass-based experiment configuration
+|   |-- data.py                             # Dataset loading, validation, and preparation
+|    |-- project_presets.py                  # Dataset names and selected commit-level feature columns
+|    |-- feature_groups.py                   # Feature concept grouping and metric-name normalization
+|    |-- metrics.py                          # G-mean, Recall0, Recall1, MCC, F1, and related metrics
+|    |-- modeling.py                         # Time-forward splitting, random forest tuning, and evaluation
+|    |-- npsk.py                             # Python wrapper for calling the R ScottKnottESD package
+|    |-- plots.py                            # Figure generation for all analysis stages
+|    |-- stage1.py                           # Stage 1: univariate signal analysis and NPSK ranking
+|    |-- stage2.py                           # Stage 2: MDI, grouped/raw feature ranking, and Meta-NPSK
+|    |-- stage3.py                           # Stage 3: Top-k NPSK rank-group performance validation
+|    |-- stage4.py                           # Stage 4: Kamei-plus-feature-category comparison
+|    |-- workflow.py                         # Object-oriented orchestration of the full pipeline
+|    |
+|   `-- r
+|        `-- run_scottknottesd.R             # R-side bridge script for ScottKnottESD::sk_esd()
 ```
+### Dataset
+### Dataset
+
+The experiments are conducted on 15 open-source software projects from GitHub. The repository links are listed below.
+
+| No. | Project       | Repository                                                                    |
+| --: | ------------- | ----------------------------------------------------------------------------- |
+|   1 | Spring Boot   | [spring-projects/spring-boot](https://github.com/spring-projects/spring-boot) |
+|   2 | MySQL Server  | [mysql/mysql-server](https://github.com/mysql/mysql-server)                   |
+|   3 | Godot         | [godotengine/godot](https://github.com/godotengine/godot)                     |
+|   4 | PyTorch       | [pytorch/pytorch](https://github.com/pytorch/pytorch)                         |
+|   5 | Django        | [django/django](https://github.com/django/django)                             |
+|   6 | Rust          | [rust-lang/rust](https://github.com/rust-lang/rust)                           |
+|   7 | TensorFlow    | [tensorflow/tensorflow](https://github.com/tensorflow/tensorflow)             |
+|   8 | VS Code       | [Microsoft/vscode](https://github.com/Microsoft/vscode)                       |
+|   9 | WP-Calypso    | [Automattic/wp-calypso](https://github.com/Automattic/wp-calypso)             |
+|  10 | Camel         | [apache/camel](https://github.com/apache/camel)                               |
+|  11 | Nova          | [openstack/nova](https://github.com/openstack/nova)                           |
+|  12 | Tomcat        | [apache/tomcat](https://github.com/apache/tomcat)                             |
+|  13 | Node.js       | [nodejs/node](https://github.com/nodejs/node)                                 |
+|  14 | Pandas        | [pandas-dev/pandas](https://github.com/pandas-dev/pandas)                     |
+|  15 | Elasticsearch | [elastic/elasticsearch](https://github.com/elastic/elasticsearch)             |
+
+
 ## Feature Extraction Module
 
 <img src="image/Feature-extraction-workflow.png" width="800">
@@ -143,6 +165,16 @@ This section provides the complete versions of Fig. 2 and Fig. 3 reported in Sec
 
 <img src="image/all_feature_mdi_npsk_ranks.png" width="600">
 
+### Environment Setup
+
+The recommended environment is Ubuntu with Conda.
+
+```bash
+conda env create -f environment.yml
+conda activate jit-sdp-analysis
+Rscript scripts/install_scottknottesd.R
+```
+
 The NPSK-ESD implementation is called through the R package
 [`ScottKnottESD`](https://github.com/klainfo/ScottKnottESD), using the
 non-parametric version:
@@ -150,4 +182,10 @@ non-parametric version:
 ```r
 ScottKnottESD::sk_esd(data, version = "np", alpha = 0.05)
 ```
+### Running the Full Workflow
+
+```
+python run_feature_importance_analysis.py
+```
+
 
