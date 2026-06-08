@@ -13,6 +13,7 @@ This repository contains two main modules:
 - `jit_sdp_experiment_analysis`: feature analysis and experimental evaluation module
 
 ## Repo Structure & Description
+`stage2.py` corresponds to the experimental results reported in this paper, whereas `jit_sdp_experiment_analysis/stage3.py` and `jit_sdp_experiment_analysis/stage4.py` are not part of the experiments reported in this paper.
 
 ```text
 commit_feature_suite/                         # Project root
@@ -92,7 +93,7 @@ python -m pip install -r requirements.txt
 python -m pip install -e .
 ```
 
-## rust-code-analysis Setup
+### rust-code-analysis Setup
 
 
 ```
@@ -103,7 +104,7 @@ cargo install rust-code-analysis-cli
 
 
 
-## Repository Preparation
+### Repository Preparation
 
 Clone target repositories under a stable repository directory:
 
@@ -135,7 +136,18 @@ python scripts/run_shards.py \
 ### Supplementary Figures for Section VI. Experimental Results
 
 This section provides the complete versions of Fig. 2 and Fig. 3 reported in Section VI. Experimental Results of the paper.
+
+
+
 <img src="image/stage1_consensus_all_features.png" width="600">
 
 <img src="image/all_feature_mdi_npsk_ranks.png" width="600">
+
+The NPSK-ESD implementation is called through the R package
+[`ScottKnottESD`](https://github.com/klainfo/ScottKnottESD), using the
+non-parametric version:
+
+```r
+ScottKnottESD::sk_esd(data, version = "np", alpha = 0.05)
+```
 
